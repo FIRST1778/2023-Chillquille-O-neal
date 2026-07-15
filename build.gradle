@@ -1,7 +1,7 @@
 plugins {
     id "java"
     id "org.jetbrains.kotlin.jvm" version "1.9.22"
-    id "edu.wpi.first.GradleRIO2027" version "2027.0.0-alpha-2"
+    id "edu.wpi.first.GradleRIO2027" version "2027.0.0-alpha-1"
 }
 
 java {
@@ -90,6 +90,8 @@ dependencies {
     nativeRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.desktop)
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
+
+    implementation("org.photonvision:photonlib-java:v2027.0.0-alpha-2")
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

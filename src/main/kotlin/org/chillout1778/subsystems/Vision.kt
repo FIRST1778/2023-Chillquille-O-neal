@@ -2,14 +2,10 @@ package org.chillout1778.subsystems
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator
-import edu.wpi.first.math.geometry.Pose2d
-import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.geometry.Transform3d
-import edu.wpi.first.util.sendable.Sendable
 import edu.wpi.first.util.sendable.SendableBuilder
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import org.chillout1778.Constants
-import org.chillout1778.Utils.isInsideField
 import org.photonvision.PhotonCamera
 import org.photonvision.PhotonPoseEstimator
 import org.photonvision.estimation.TargetModel
