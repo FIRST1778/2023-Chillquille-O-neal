@@ -1,6 +1,8 @@
 package org.chillout1778
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration
+import com.ctre.phoenix6.signals.InvertedValue
+import com.ctre.phoenix6.signals.NeutralModeValue
 import edu.wpi.first.apriltag.AprilTagFields
 import edu.wpi.first.math.controller.PIDController
 import edu.wpi.first.math.controller.SimpleMotorFeedforward
@@ -145,10 +147,38 @@ object Constants {
     }
 
     object Elevator {
-        // Max extension, setpoints, current draw
+        //copyed from subz will find real values for these later
+        val SPOOL_RADIUS: Double = Units.inchesToMeters(0.0)
+        const val GEAR_RATIO: Double = 4.0
 
-        val MOTOR_CONFIG = TalonFXConfiguration().apply {
-            // slots, gear ratios, spools, motion magic
+        const val ZERO_VOLTAGE = 0.0//-0.2 from subz
+        const val ZERO_MIN_CURRENT = 0.0//1.7 from subz //amps
+
+        const val SETPOINT_THRESHOLD = 0.0//0.01 from subz
+        const val LAZIER_SETPOINT_THRESHOLD = 0.0//0.03 from subz
+
+        const val COLLISION_AVOIDANCE_MARGIN = 1.0
+
+        val MAX_EXTENSION = Units.inchesToMeters(0.0) //need to figure out
+
+        const val SAFE_HEIGHT = 0.0//0.837198 - .01from subz
+
+            val MOTOR_CONFIG = TalonFXConfiguration().apply {
+                Feedback.SensorToMechanismRatio = GEAR_RATIO / (SPOOL_RADIUS * 2*Math.PI)
+                MotorOutput.Inverted = InvertedValue.Clockwise_Positive
+                MotorOutput.NeutralMode = NeutralModeValue.Brake
+
+
+                Slot0.kS = 0.0
+                Slot0.kV = 0.0
+                Slot0.kA = 0.0
+                Slot0.kG = 0.0//0.37 from subz
+                Slot0.kP = 0.0//70.0 from subz
+
+                //both of these are from subz but they should work
+                MotionMagic.MotionMagicAcceleration = 14.0
+                MotionMagic.MotionMagicCruiseVelocity = 3.0
+            }
         }
     }
 }
