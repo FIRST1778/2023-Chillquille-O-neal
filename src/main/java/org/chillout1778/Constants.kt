@@ -8,7 +8,10 @@ import edu.wpi.first.math.controller.PIDController
 import edu.wpi.first.math.controller.SimpleMotorFeedforward
 import edu.wpi.first.math.util.Units
 import kotlin.math.PI
+import java.lang.Math.toRadians
+import edu.wpi.first.math.geometry.*
 import kotlin.math.sqrt
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap
 
 
 object Constants {
@@ -48,6 +51,13 @@ object Constants {
         // GYRO
 
         const val GYRO = 20
+
+    }
+
+    object CurrentLimits {
+        // Anti breaker popper !
+        const val DRIVE = 35.0
+        const val TURN = 20.0
     }
 
     object DioIds {
@@ -129,6 +139,19 @@ object Constants {
         const val FRONT_RIGHT_ENCODER_OFFSET = 0.276 // ROTATIONS
         const val BACK_RIGHT_ENCODER_OFFSET = 0.372 // ROTATIONS
         const val BACK_LEFT_ENCODER_OFFSET = 0.298 // ROTATIONS
+
+        // auto specific
+
+        val MAX_SPEED = 3.0 // m/s
+        val MAX_ANGULAR_RATE = 0.75 * 2 * PI // rad/s
+
+        val DRIVE_KP = 5.0  // Made for autos
+        val DRIVE_KI = 0.0
+        val DRIVE_KD = 0.0
+
+        val HEADING_KP = 5.0  // Made for autos
+        val HEADING_KI = 0.0
+        val HEADING_KD = 0.0
     }
 
     object Pivot {
@@ -181,4 +204,3 @@ object Constants {
             }
         }
     }
-}
