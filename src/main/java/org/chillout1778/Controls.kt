@@ -13,23 +13,26 @@ object Controls {
     private val driverController = CommandPS5Controller(0)
     private val operatorController = CommandPS5Controller(1)
 
-    data class Inputs (
+    data class DriveInputs (
 
         var axial: Double = 0.0,
         var lateral: Double = 0.0,
         var rotate: Double = 0.0,
+        var wantSwerveBrake: Boolean = false,
     )
 
-    var autoControls = Inputs()
+    var autoControls = DriveInputs()
 
-    val controls: Inputs get() {
+    val controls: DriveInputs get() {
         return if (Robot.isAutonomous) autoControls
-        else Inputs(
+        else DriveInputs(
 
             axial = -driverController.leftY,
             lateral = -driverController.leftX,
             rotate = -driverController.rightX,
-        )
+            wantSwerveBrake = driverController.hid.l3Button,
+
+            )
     }
 
     //For when we add autoalign
