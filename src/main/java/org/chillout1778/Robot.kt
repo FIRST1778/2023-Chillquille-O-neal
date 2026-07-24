@@ -11,19 +11,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand
 import org.chillout1778.subsystems.*
 
 object Robot : TimedRobot() {
-    val isRedAlliance get() =
-        DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue) == DriverStation.Alliance.Red
 
-    val isOnRedSide get() =
-        Swerve.estimatedPose.x > (Constants.Field.FIELD_X_SIZE / 2)
 
-    val autoFactory = AutoFactory(
-        { swervePose },
-        { pose: Pose2d -> Swerve.resetPose(pose) },
-        Swerve::followTrajectory,
-        true,
-        Swerve
-    )
 
     var selectedAutoCommand: Command = InstantCommand()
 
@@ -52,6 +41,5 @@ object Robot : TimedRobot() {
 
     override fun testInit() {
         CommandScheduler.getInstance().cancelAll()
-        Swerve.gyroAngle = 0.0
     }
 }
