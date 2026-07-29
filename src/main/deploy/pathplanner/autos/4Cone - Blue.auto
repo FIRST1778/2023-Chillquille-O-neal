@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start - Cone1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Cone1 - Drop1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop1 - Cone2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Cone2 - Drop2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop2 - Cone3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Cone3 - Drop3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Drop3 - Cone4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Cone4 - End"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": false,
+  "folder": null,
+  "choreoAuto": false
+}
