@@ -15,8 +15,8 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap
 
 
 object Constants {
+
     object CanIds {
-        //Don't put anything on ID 0, when a new motor is recognized in Phoenix Tuner X it causes issues
         // SWERVE MOTORS !
         const val SWERVE_FRONT_LEFT_DRIVE = 1
         const val SWERVE_FRONT_LEFT_TURN = 2
@@ -46,11 +46,11 @@ object Constants {
         // MANIPULATOR MOTORS !
 
         const val MANIPULATOR_ROLLER_MAIN_MOTOR = 18
-        const val MANIPULATOR_ROLLER_FOLLOWER_MOTOR = 19
+
 
         // GYRO
 
-        const val GYRO = 20
+        const val GYRO = 19
 
     }
 
@@ -203,4 +203,4 @@ object Constants {
                 MotionMagic.MotionMagicCruiseVelocity = 3.0
             }
         }
-    }
+}

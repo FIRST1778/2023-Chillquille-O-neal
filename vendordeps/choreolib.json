@@ -35,8 +35,7 @@
           "linuxx86-64",
           "osxuniversal",
           "linuxarm32",
-          "linuxarm64",
-          "linuxsystemcore"
+          "linuxarm64"
         ]
       }
     ]

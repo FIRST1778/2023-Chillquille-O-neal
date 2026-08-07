@@ -1,4 +1,5 @@
 package org.chillout1778
+import org.chillout1778.Elastic
 
 import choreo.Choreo
 import choreo.auto.AutoFactory
@@ -14,28 +15,44 @@ import org.chillout1778.subsystems.Swerve
 
 object Robot : TimedRobot() {
 
-
-
     var selectedAutoCommand: Command = InstantCommand()
 
     val autoChooser: SendableChooser<Command> = SendableChooser()
 
+    init {
+        // MUST BE CALLED FIRST before subsystems boot up!
+        LoggingManager.start()
+    }
+
     var autoIsRunning = false
 
     override fun robotInit() {
-
         // Add autos to auto chooser in shuffleboard
 
+    }
+
+    override fun robotPeriodic() {
+        CommandScheduler.getInstance().run()
     }
 
     object AutoContainer {
         // private val instant commands that you can mix and match
     }
 
+
+    // Select a specific tab on the Elastic Dashboard during Teleop
     override fun teleopInit() {
         Swerve.defaultCommand = TeleopDriveCommand(Controls::controls)
         autoIsRunning = false
+        Elastic.selectTab("Teleop")
 
+        Elastic.sendNotification(
+            Elastic.Notification.builder()
+                .withTitle("Teleop Active")
+                .withMessage("Driver controls initialized.")
+                .withLevel(Elastic.Notification.Level.INFO)
+                .build()
+        )
     }
 
 

@@ -36,7 +36,6 @@
             "skipInvalidPlatforms": true,
             "binaryPlatforms": [
                 "windowsx86-64",
-                "linuxsystemcore",
                 "linuxx86-64",
                 "osxuniversal"
             ]
