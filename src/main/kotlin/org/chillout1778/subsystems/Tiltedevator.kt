@@ -26,11 +26,11 @@ object Elevator: SubsystemBase() {
 
     }
 
-    private val mainMotor = TalonFX(Constants.CanIds.ELEVATOR_MAIN_MOTOR).apply{
+    private val mainMotor = TalonFX(Constants.CanIds.ELEVATOR_MAIN_MOTOR, Constants.CanBusses.ELEVATOR).apply{
         configurator.apply(Constants.Elevator.MOTOR_CONFIG)
     }
 
-    private val followerMotor = TalonFX(Constants.CanIds.ELEVATOR_FOLLOWER_MOTOR).apply{
+    private val followerMotor = TalonFX(Constants.CanIds.ELEVATOR_FOLLOWER_MOTOR, Constants.CanBusses.ELEVATOR).apply{
         setControl(Follower(mainMotor.deviceID, true))
     }
 

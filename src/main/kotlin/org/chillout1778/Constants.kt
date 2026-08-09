@@ -1,5 +1,6 @@
 package org.chillout1778
 
+import com.ctre.phoenix6.CANBus
 import com.ctre.phoenix6.configs.TalonFXConfiguration
 import com.ctre.phoenix6.signals.InvertedValue
 import com.ctre.phoenix6.signals.NeutralModeValue
@@ -8,13 +9,17 @@ import edu.wpi.first.math.controller.PIDController
 import edu.wpi.first.math.controller.SimpleMotorFeedforward
 import edu.wpi.first.math.util.Units
 import kotlin.math.PI
-import java.lang.Math.toRadians
-import edu.wpi.first.math.geometry.*
 import kotlin.math.sqrt
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap
 
 
 object Constants {
+    object CanBusses {
+        val DRIVETRAIN = CANBus.systemCore(0) // Bus 0
+        val ELEVATOR = CANBus.systemCore(1) // Bus 1
+        val ARM_AND_MANIPULATOR = CANBus.systemCore(2) // Bus 2
+        val OTHER = CANBus.systemCore(3) // Bus 3
+    }
+
     object CanIds {
         //Don't put anything on ID 0, when a new motor is recognized in Phoenix Tuner X it causes issues
         // SWERVE MOTORS !

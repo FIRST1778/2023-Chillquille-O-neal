@@ -10,11 +10,11 @@ Arm is the subsystem containing the WRIST and SHOULDER
 */
 object Arm {
     object Shoulder : SubsystemBase() {
-        private val mainMotor = TalonFX(Constants.CanIds.ARM_SHOULDER_MAIN_MOTOR).apply{
+        private val mainMotor = TalonFX(Constants.CanIds.ARM_SHOULDER_MAIN_MOTOR, Constants.CanBusses.ARM_AND_MANIPULATOR).apply{
             configurator.apply(Constants.Shoulder.MOTOR_CONFIG)
         }
 
-        private val followerMotor = TalonFX(Constants.CanIds.ARM_SHOULDER_FOLLOWER_MOTOR).apply{
+        private val followerMotor = TalonFX(Constants.CanIds.ARM_SHOULDER_FOLLOWER_MOTOR, Constants.CanBusses.ARM_AND_MANIPULATOR).apply{
             setControl(Follower(mainMotor.deviceID, false))
         }
         var isZeroed = false
@@ -26,7 +26,7 @@ object Arm {
     }
 
     object Wrist : SubsystemBase() {
-        private val mainMotor = TalonFX(Constants.CanIds.ARM_WRIST_MOTOR).apply {
+        private val mainMotor = TalonFX(Constants.CanIds.ARM_WRIST_MOTOR, Constants.CanBusses.ARM_AND_MANIPULATOR).apply {
             configurator.apply(Constants.Wrist.MOTOR_CONFIG)
         }
 
