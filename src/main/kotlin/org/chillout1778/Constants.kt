@@ -15,8 +15,8 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap
 
 
 object Constants {
-
     object CanIds {
+        //Don't put anything on ID 0, when a new motor is recognized in Phoenix Tuner X it causes issues
         // SWERVE MOTORS !
         const val SWERVE_FRONT_LEFT_DRIVE = 1
         const val SWERVE_FRONT_LEFT_TURN = 2
@@ -46,11 +46,11 @@ object Constants {
         // MANIPULATOR MOTORS !
 
         const val MANIPULATOR_ROLLER_MAIN_MOTOR = 18
-
+        const val MANIPULATOR_ROLLER_FOLLOWER_MOTOR = 19
 
         // GYRO
 
-        const val GYRO = 19
+        const val GYRO = 20
 
     }
 
@@ -154,19 +154,69 @@ object Constants {
         val HEADING_KD = 0.0
     }
 
-    object Pivot {
-        val PIVOT_CONFIG = TalonFXConfiguration().apply {
-            // Motor output
-            // Motion magic (?) + current limits
+    object Shoulder {
+
+        //TODO("tune")
+        const val GEAR_RATIO: Double = 30.0
+
+        const val ZERO_VOLTAGE = 0.0//TODO
+        const val ZERO_MIN_CURRENT = 0.0 //TODO
+
+        const val SETPOINT_THRESHOLD = 0.01
+        const val LAZIER_SETPOINT_THRESHOLD = 0.0//0.03 from subz
+
+
+        val MAX_ANGLE = Units.degreesToRadians(270.0) //TODO
+
+        val MOTOR_CONFIG = TalonFXConfiguration().apply {
+            Feedback.SensorToMechanismRatio = GEAR_RATIO * 2 * Math.PI
+            MotorOutput.Inverted = InvertedValue.Clockwise_Positive
+            MotorOutput.NeutralMode = NeutralModeValue.Brake
+
+            //TODO("WHEEEEEEEEEEEEEEEE")
+            Slot0.kS = 0.0
+            Slot0.kV = 0.0
+            Slot0.kA = 0.0
+            Slot0.kG = 0.0
+            Slot0.kP = 0.0
+
+            //both of these are from subz but they should work (but probably not)
+            MotionMagic.MotionMagicAcceleration = 14.0
+            MotionMagic.MotionMagicCruiseVelocity = 3.0
         }
+    }
 
-        // operating range + encoder ratios
 
-        // Safeties
+    object Wrist {
 
-        // setpoint
+        //TODO("tune")
+        const val GEAR_RATIO: Double = 4.8
 
-        // current draw
+        const val ZERO_VOLTAGE = 0.0//TODO
+        const val ZERO_MIN_CURRENT = 0.0 //TODO
+
+        const val SETPOINT_THRESHOLD = 0.01
+        const val LAZIER_SETPOINT_THRESHOLD = 0.0//0.03 from subz
+
+
+        val MAX_ANGLE = Units.degreesToRadians(270.0) //TODO
+
+        val MOTOR_CONFIG = TalonFXConfiguration().apply {
+            Feedback.SensorToMechanismRatio = GEAR_RATIO * 2 * Math.PI
+            MotorOutput.Inverted = InvertedValue.Clockwise_Positive
+            MotorOutput.NeutralMode = NeutralModeValue.Brake
+
+            //TODO("WHEEEEEEEEEEEEEEEE")
+            Slot0.kS = 0.0
+            Slot0.kV = 0.0
+            Slot0.kA = 0.0
+            Slot0.kG = 0.0
+            Slot0.kP = 0.0
+
+            //both of these are from subz but they should work (but probably not)
+            MotionMagic.MotionMagicAcceleration = 14.0
+            MotionMagic.MotionMagicCruiseVelocity = 3.0
+        }
     }
 
     object Elevator {
@@ -186,21 +236,21 @@ object Constants {
 
         const val SAFE_HEIGHT = 0.0//0.837198 - .01from subz
 
-            val MOTOR_CONFIG = TalonFXConfiguration().apply {
-                Feedback.SensorToMechanismRatio = GEAR_RATIO / (SPOOL_RADIUS * 2*Math.PI)
-                MotorOutput.Inverted = InvertedValue.Clockwise_Positive
-                MotorOutput.NeutralMode = NeutralModeValue.Brake
+        val MOTOR_CONFIG = TalonFXConfiguration().apply {
+            Feedback.SensorToMechanismRatio = GEAR_RATIO / (SPOOL_RADIUS * 2 * Math.PI)
+            MotorOutput.Inverted = InvertedValue.Clockwise_Positive
+            MotorOutput.NeutralMode = NeutralModeValue.Brake
 
 
-                Slot0.kS = 0.0
-                Slot0.kV = 0.0
-                Slot0.kA = 0.0
-                Slot0.kG = 0.0//0.37 from subz
-                Slot0.kP = 0.0//70.0 from subz
+            Slot0.kS = 0.0
+            Slot0.kV = 0.0
+            Slot0.kA = 0.0
+            Slot0.kG = 0.0//0.37 from subz
+            Slot0.kP = 0.0//70.0 from subz
 
-                //both of these are from subz but they should work
-                MotionMagic.MotionMagicAcceleration = 14.0
-                MotionMagic.MotionMagicCruiseVelocity = 3.0
-            }
+            //both of these are from subz but they should work
+            MotionMagic.MotionMagicAcceleration = 14.0
+            MotionMagic.MotionMagicCruiseVelocity = 3.0
         }
+    }
 }

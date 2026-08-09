@@ -49,7 +49,12 @@ object Elevator: SubsystemBase() {
     val lazierAtSetPoint get() = abs(height - state.extension) < Constants.Elevator.LAZIER_SETPOINT_THRESHOLD
     val atOrAboveSetPoint get() = (height + Constants.Elevator.SETPOINT_THRESHOLD) >= state.extension
 
-    fun setZeroingVoltage(){
+    override fun periodic() {
+        if (!isZeroed || !Arm.Shoulder.isZeroed)
+            return
+        mainMotor.setControl(MotionMagicVoltage(state.extension))
+    }
+    fun setZeroingVoltage() {
         mainMotor.setVoltage(Constants.Elevator.ZERO_VOLTAGE)
     }
 
