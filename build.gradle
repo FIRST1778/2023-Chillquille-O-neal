@@ -93,6 +93,8 @@ dependencies {
 
     implementation("org.photonvision:photonlib-java:v2027.0.0-alpha-2")
 
+    implementation("dev.nextftc:core:1.1.0") //SUE ME, I PREFER FTC (these units are better than wpilib's)
+
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

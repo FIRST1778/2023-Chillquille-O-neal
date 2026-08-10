@@ -21,7 +21,7 @@ object Elevator: SubsystemBase() {
         L2Cube(extension = Units.inchesToMeters(1000.0)),
         L3Cube(extension = Units.inchesToMeters(1000.0)),
         GroundPickupForward(extension = Units.inchesToMeters(1000.0)),
-        GroundPickupBackward(extension = Units.inchesToMeters(1000.0)),
+        GroundPickupBackward(extension = Units.inchesToMeters(1000.0))
         ;
 
     }

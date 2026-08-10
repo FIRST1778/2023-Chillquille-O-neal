@@ -162,7 +162,7 @@ object Constants {
     object Shoulder {
 
         //TODO("tune")
-        const val GEAR_RATIO: Double = 30.0
+        const val GEAR_RATIO: Double = 52.5
 
         const val ZERO_VOLTAGE = 0.0//TODO
         const val ZERO_MIN_CURRENT = 0.0 //TODO
