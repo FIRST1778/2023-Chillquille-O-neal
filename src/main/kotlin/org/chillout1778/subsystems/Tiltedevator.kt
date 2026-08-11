@@ -21,16 +21,16 @@ object Elevator: SubsystemBase() {
         L2Cube(extension = Units.inchesToMeters(1000.0)),
         L3Cube(extension = Units.inchesToMeters(1000.0)),
         GroundPickupForward(extension = Units.inchesToMeters(1000.0)),
-        GroundPickupBackward(extension = Units.inchesToMeters(1000.0)),
+        GroundPickupBackward(extension = Units.inchesToMeters(1000.0))
         ;
 
     }
 
-    private val mainMotor = TalonFX(Constants.CanIds.ELEVATOR_MAIN_MOTOR).apply{
+    private val mainMotor = TalonFX(Constants.CanIds.ELEVATOR_MAIN_MOTOR, Constants.CanBusses.ELEVATOR).apply{
         configurator.apply(Constants.Elevator.MOTOR_CONFIG)
     }
 
-    private val followerMotor = TalonFX(Constants.CanIds.ELEVATOR_FOLLOWER_MOTOR).apply{
+    private val followerMotor = TalonFX(Constants.CanIds.ELEVATOR_FOLLOWER_MOTOR, Constants.CanBusses.ELEVATOR).apply{
         setControl(Follower(mainMotor.deviceID, true))
     }
 
@@ -49,7 +49,12 @@ object Elevator: SubsystemBase() {
     val lazierAtSetPoint get() = abs(height - state.extension) < Constants.Elevator.LAZIER_SETPOINT_THRESHOLD
     val atOrAboveSetPoint get() = (height + Constants.Elevator.SETPOINT_THRESHOLD) >= state.extension
 
-    fun setZeroingVoltage(){
+    override fun periodic() {
+        if (!isZeroed || !Arm.Shoulder.isZeroed)
+            return
+        mainMotor.setControl(MotionMagicVoltage(state.extension))
+    }
+    fun setZeroingVoltage() {
         mainMotor.setVoltage(Constants.Elevator.ZERO_VOLTAGE)
     }
 
