@@ -4,10 +4,13 @@ import com.ctre.phoenix6.CANBus
 import com.ctre.phoenix6.configs.TalonFXConfiguration
 import com.ctre.phoenix6.signals.InvertedValue
 import com.ctre.phoenix6.signals.NeutralModeValue
+import dev.nextftc.core.units.deg
 import edu.wpi.first.apriltag.AprilTagFields
 import edu.wpi.first.math.controller.PIDController
 import edu.wpi.first.math.controller.SimpleMotorFeedforward
 import edu.wpi.first.math.util.Units
+import org.chillout1778.subsystems.Arm
+import org.chillout1778.subsystems.Arm.ArmElevatorPair
 import kotlin.math.PI
 import kotlin.math.sqrt
 
@@ -258,4 +261,12 @@ object Constants {
             MotionMagic.MotionMagicCruiseVelocity = 3.0
         }
     }
+
+    val safeLocations = listOf(
+        ArmElevatorPair(0.deg, 0.deg, 0.0),
+        ArmElevatorPair(TODO(), TODO(), TODO())
+        // THIS NEEDS TO BE A REALLY LONG LIST OF TESTED POSITIONS
+        // not just where is *should* go but where it *can* go safely
+        // this is basically a look up table
+    )
 }
