@@ -1,28 +1,29 @@
 package org.chillout1778
 
-import com.ctre.phoenix6.CANBus
 import com.ctre.phoenix6.configs.TalonFXConfiguration
 import com.ctre.phoenix6.signals.InvertedValue
 import com.ctre.phoenix6.signals.NeutralModeValue
-import dev.nextftc.core.units.deg
 import edu.wpi.first.apriltag.AprilTagFields
 import edu.wpi.first.math.controller.PIDController
 import edu.wpi.first.math.controller.SimpleMotorFeedforward
 import edu.wpi.first.math.util.Units
-import org.chillout1778.subsystems.Arm
-import org.chillout1778.subsystems.Arm.ArmElevatorPair
 import kotlin.math.PI
+import java.lang.Math.toRadians
+import edu.wpi.first.math.geometry.*
 import kotlin.math.sqrt
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap
+import com.ctre.phoenix6.CANBus
 
 
 object Constants {
-    object CanBusses {
-        val DRIVETRAIN = CANBus.systemCore(0) // Bus 0
-        val ELEVATOR = CANBus.systemCore(1) // Bus 1
-        val ARM_AND_MANIPULATOR = CANBus.systemCore(2) // Bus 2
-        val OTHER = CANBus.systemCore(3) // Bus 3
-    }
 
+    object CanBusses {
+        val DRIVETRAIN = CANBus("0")
+        val ELEVATOR = CANBus("1")
+        val ARM = CANBus("2")
+        val MANIPULATOR = CANBus("2") // yes i know this is the same as the arm, thats intentional
+        val OTHER_AUXILERY = CANBus("3")
+    }
     object CanIds {
         //Don't put anything on ID 0, when a new motor is recognized in Phoenix Tuner X it causes issues
         // SWERVE MOTORS !
@@ -165,7 +166,7 @@ object Constants {
     object Shoulder {
 
         //TODO("tune")
-        const val GEAR_RATIO: Double = 52.5
+        const val GEAR_RATIO: Double = 30.0
 
         const val ZERO_VOLTAGE = 0.0//TODO
         const val ZERO_MIN_CURRENT = 0.0 //TODO
@@ -261,12 +262,4 @@ object Constants {
             MotionMagic.MotionMagicCruiseVelocity = 3.0
         }
     }
-
-    val safeLocations = listOf(
-        ArmElevatorPair(0.deg, 0.deg, 0.0),
-        ArmElevatorPair(TODO(), TODO(), TODO())
-        // THIS NEEDS TO BE A REALLY LONG LIST OF TESTED POSITIONS
-        // not just where is *should* go but where it *can* go safely
-        // this is basically a look up table
-    )
 }
