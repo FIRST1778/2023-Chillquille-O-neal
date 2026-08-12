@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.CommandScheduler
 import edu.wpi.first.wpilibj2.command.InstantCommand
 import org.chillout1778.commands.TeleopDriveCommand
+import org.chillout1778.org.chillout1778.subsystems.ArmElevatorManager
 import org.chillout1778.subsystems.*
 import org.chillout1778.subsystems.Swerve
 
@@ -32,7 +33,9 @@ object Robot : TimedRobot() {
     }
 
     override fun robotPeriodic() {
+        ArmElevatorManager.update()
         CommandScheduler.getInstance().run()
+
     }
 
     object AutoContainer {

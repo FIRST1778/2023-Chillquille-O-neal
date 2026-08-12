@@ -7,24 +7,12 @@ import com.ctre.phoenix6.controls.Follower
 import com.ctre.phoenix6.controls.MotionMagicVoltage
 import com.ctre.phoenix6.signals.NeutralModeValue
 import edu.wpi.first.math.util.Units
+import org.chillout1778.org.chillout1778.Distance
+import org.chillout1778.org.chillout1778.m
+import org.chillout1778.org.chillout1778.subsystems.ArmElevatorManager.currentState
 import kotlin.math.abs
 
 object Elevator: SubsystemBase() {
-    enum class State(val extension: Double) {
-        //none of these values are right. must check CAD and then tune.
-        Down(extension = 0.0),
-        SubStation(extension = Units.inchesToMeters(1000.0)),
-        L1Cone(extension = Units.inchesToMeters(1000.0)),
-        L2Cone(extension = Units.inchesToMeters(1000.0)),
-        L3Cone(extension = Units.inchesToMeters(1000.0)),
-        L1Cube(extension = Units.inchesToMeters(1000.0)),
-        L2Cube(extension = Units.inchesToMeters(1000.0)),
-        L3Cube(extension = Units.inchesToMeters(1000.0)),
-        GroundPickupForward(extension = Units.inchesToMeters(1000.0)),
-        GroundPickupBackward(extension = Units.inchesToMeters(1000.0)),
-        ;
-
-    }
 
     private val mainMotor = TalonFX(Constants.CanIds.ELEVATOR_MAIN_MOTOR, Constants.CanBusses.ELEVATOR).apply{
         configurator.apply(Constants.Elevator.MOTOR_CONFIG)
@@ -40,19 +28,19 @@ object Elevator: SubsystemBase() {
         isZeroed = true
     }
 
-    var state = State.Down
+    var targetPosition = 0.0.m
 
     val height get() = mainMotor.position.valueAsDouble
     val velocity get() = mainMotor.velocity.valueAsDouble
 
-    val atSetPoint get() = abs(height - state.extension) < Constants.Elevator.SETPOINT_THRESHOLD
-    val lazierAtSetPoint get() = abs(height - state.extension) < Constants.Elevator.LAZIER_SETPOINT_THRESHOLD
-    val atOrAboveSetPoint get() = (height + Constants.Elevator.SETPOINT_THRESHOLD) >= state.extension
+    val atSetPoint get() = abs(height - currentState.elevator.inMeters) < Constants.Elevator.SETPOINT_THRESHOLD
+    val lazierAtSetPoint get() = abs(height - currentState.elevator.inMeters) < Constants.Elevator.LAZIER_SETPOINT_THRESHOLD
+    val atOrAboveSetPoint get() = (height + Constants.Elevator.SETPOINT_THRESHOLD) >= currentState.elevator.inMeters
 
     override fun periodic() {
         if (!isZeroed || !Arm.Shoulder.isZeroed)
             return
-        mainMotor.setControl(MotionMagicVoltage(state.extension))
+        mainMotor.setControl(MotionMagicVoltage(targetPosition.inMeters))
     }
     fun setZeroingVoltage() {
         mainMotor.setVoltage(Constants.Elevator.ZERO_VOLTAGE)
@@ -70,5 +58,9 @@ object Elevator: SubsystemBase() {
             mainMotor.setNeutralMode(NeutralModeValue.Brake)
             followerMotor.setNeutralMode(NeutralModeValue.Brake)
         }
+    }
+
+    fun Distance.ClampWithinElevatorRange(): Distance {
+        return this.inMeters.coerceIn(0.0, 1.0).m // TODO("tune me")
     }
 }

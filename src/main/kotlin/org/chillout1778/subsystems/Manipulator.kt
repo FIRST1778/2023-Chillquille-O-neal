@@ -10,6 +10,6 @@ object Manipulator : SubsystemBase() {
 
     }
 
-    val rollerMotor = TalonFX(Constants.CanIds.MANIPULATOR_ROLLER_MAIN_MOTOR, Constants.CanBusses.ARM_AND_MANIPULATOR)
+    val rollerMotor = TalonFX(Constants.CanIds.MANIPULATOR_ROLLER_MAIN_MOTOR, Constants.CanBusses.MANIPULATOR)
 
 }
