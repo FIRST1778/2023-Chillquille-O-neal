@@ -27,7 +27,7 @@ object Arm {
 
     object Wrist : SubsystemBase() {
         private val mainMotor = TalonFX(Constants.CanIds.ARM_WRIST_MOTOR, Constants.CanBusses.ARM_AND_MANIPULATOR).apply {
-            configurator.apply(Constants.Wrist.MOTOR_CONFIG)
+            configurator.apply(Constants.Wrist.MOTOR_CONFIG);
         }
 
         fun Double.ClampWithinRange(): Double {
