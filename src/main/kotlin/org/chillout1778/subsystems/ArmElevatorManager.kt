@@ -1,9 +1,11 @@
 package org.chillout1778.org.chillout1778.subsystems
 
+import edu.wpi.first.wpilibj.RobotState
 import org.chillout1778.org.chillout1778.Angle
 import org.chillout1778.org.chillout1778.Distance
 import org.chillout1778.org.chillout1778.deg
 import org.chillout1778.org.chillout1778.m
+import org.chillout1778.org.chillout1778.rev
 import org.chillout1778.subsystems.Arm.Shoulder
 import org.chillout1778.subsystems.Arm.Shoulder.ClampWithinShoulderRange
 import org.chillout1778.subsystems.Arm.Wrist
@@ -14,21 +16,23 @@ import org.chillout1778.subsystems.Elevator.ClampWithinElevatorRange
 
 object ArmElevatorManager {
 
-    enum class SystemStates(val elevator: Distance, val shoulder: Angle, val wrist: Angle) { // TODO("TUNE MEEEEEEEEEEEEEE!!!)
-        Down(0.0.m, 0.0.deg, 0.0.deg),
-        SubStation(0.0.m, 0.0.deg, 0.0.deg),
-        L1Cone(0.0.m, 0.0.deg, 0.0.deg),
-        L2Cone(0.0.m, 0.0.deg, 0.0.deg),
-        L3Cone(0.0.m, 0.0.deg, 0.0.deg),
-        L1Cube(0.0.m, 0.0.deg, 0.0.deg),
-        L2Cube(0.0.m, 0.0.deg, 0.0.deg),
-        L3Cube(0.0.m, 0.0.deg, 0.0.deg),
-        GroundPickupForward(0.0.m, 0.0.deg, 0.0.deg),
-        GroundPickupBackward(0.0.m, 0.0.deg, 0.0.deg)
+    data class robotConfiguration(var elevator: Distance, var shoulder: Angle, var wrist: Angle)
+
+    enum class SystemStates(val robotState: robotConfiguration) { // TODO("TUNE MEEEEEEEEEEEEEE!!!)
+        Down(robotConfiguration(0.0.m, 0.0.deg, 0.0.deg)),
+        SubStation(robotConfiguration(0.0.m, 0.0.deg, 0.0.deg)),
+        L1Cone(robotConfiguration(0.0.m, 0.0.deg, 0.0.deg)),
+        L2Cone(robotConfiguration(0.0.m, 0.0.deg, 0.0.deg)),
+        L3Cone(robotConfiguration(0.0.m, 0.0.deg, 0.0.deg)),
+        L1Cube(robotConfiguration(0.0.m, 0.0.deg, 0.0.deg)),
+        L2Cube(robotConfiguration(0.0.m, 0.0.deg, 0.0.deg)),
+        L3Cube(robotConfiguration(0.0.m, 0.0.deg, 0.0.deg)),
+        GroundPickupForward(robotConfiguration(0.0.m, 0.0.deg, 0.0.deg)),
+        GroundPickupBackward(robotConfiguration(0.0.m, 0.0.deg, 0.0.deg))
         ;
     }
 
-    fun goTo(position: SystemStates) {
+    fun goTo(position: robotConfiguration) {
         var shoulderPos = position.shoulder.inRad
         var wristPos = position.wrist.inRad
         var elevatorPos = position.elevator.inMeters
@@ -44,11 +48,12 @@ object ArmElevatorManager {
         Elevator.targetPosition = elevatorPos.m.ClampWithinElevatorRange()
     }
 
-    var currentState = SystemStates.Down
-    var targetState = SystemStates.Down
+    var currentState = SystemStates.Down.robotState
+    var targetState = SystemStates.Down.robotState
 
     fun update() {
-        goTo(currentState)
+        currentState = robotConfiguration(Elevator.height.m, Shoulder.mainMotor.position.valueAsDouble.rev, Wrist.mainMotor.position.valueAsDouble.rev)
+        goTo(targetState)
     }
 }
 

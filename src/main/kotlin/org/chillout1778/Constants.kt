@@ -22,7 +22,7 @@ object Constants {
         val ELEVATOR = CANBus("1")
         val ARM = CANBus("2")
         val MANIPULATOR = CANBus("2") // yes i know this is the same as the arm, thats intentional
-        val OTHER_AUXILERY = CANBus("3")
+        val OTHER_AUXILERY = CANBus("3") //this is for lights or other things
     }
     object CanIds {
         //Don't put anything on ID 0, when a new motor is recognized in Phoenix Tuner X it causes issues

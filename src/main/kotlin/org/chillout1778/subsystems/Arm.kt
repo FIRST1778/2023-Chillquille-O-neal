@@ -20,7 +20,7 @@ object Arm {
     object Shoulder : SubsystemBase() {
 
         var targetPosition = 0.0.deg
-        private val mainMotor = TalonFX(Constants.CanIds.ARM_SHOULDER_MAIN_MOTOR, Constants.CanBusses.ARM).apply{
+        val mainMotor = TalonFX(Constants.CanIds.ARM_SHOULDER_MAIN_MOTOR, Constants.CanBusses.ARM).apply{
             configurator.apply(Constants.Shoulder.MOTOR_CONFIG)
         }
 
@@ -47,7 +47,7 @@ object Arm {
     object Wrist : SubsystemBase() {
 
         var targetPosition = 0.0.deg
-        private val mainMotor = TalonFX(Constants.CanIds.ARM_WRIST_MOTOR, Constants.CanBusses.ARM).apply {
+        val mainMotor = TalonFX(Constants.CanIds.ARM_WRIST_MOTOR, Constants.CanBusses.ARM).apply {
             configurator.apply(Constants.Wrist.MOTOR_CONFIG)
         }
 

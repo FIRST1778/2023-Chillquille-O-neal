@@ -14,7 +14,7 @@ import kotlin.math.abs
 
 object Elevator: SubsystemBase() {
 
-    private val mainMotor = TalonFX(Constants.CanIds.ELEVATOR_MAIN_MOTOR, Constants.CanBusses.ELEVATOR).apply{
+    val mainMotor = TalonFX(Constants.CanIds.ELEVATOR_MAIN_MOTOR, Constants.CanBusses.ELEVATOR).apply{
         configurator.apply(Constants.Elevator.MOTOR_CONFIG)
     }
 
@@ -33,9 +33,9 @@ object Elevator: SubsystemBase() {
     val height get() = mainMotor.position.valueAsDouble
     val velocity get() = mainMotor.velocity.valueAsDouble
 
-    val atSetPoint get() = abs(height - currentState.elevator.inMeters) < Constants.Elevator.SETPOINT_THRESHOLD
-    val lazierAtSetPoint get() = abs(height - currentState.elevator.inMeters) < Constants.Elevator.LAZIER_SETPOINT_THRESHOLD
-    val atOrAboveSetPoint get() = (height + Constants.Elevator.SETPOINT_THRESHOLD) >= currentState.elevator.inMeters
+    val atSetPoint get() = abs(height - targetPosition.inMeters) < Constants.Elevator.SETPOINT_THRESHOLD
+    val lazierAtSetPoint get() = abs(height - targetPosition.inMeters) < Constants.Elevator.LAZIER_SETPOINT_THRESHOLD
+    val atOrAboveSetPoint get() = (height + Constants.Elevator.SETPOINT_THRESHOLD) >= targetPosition.inMeters
 
     override fun periodic() {
         if (!isZeroed || !Arm.Shoulder.isZeroed)
