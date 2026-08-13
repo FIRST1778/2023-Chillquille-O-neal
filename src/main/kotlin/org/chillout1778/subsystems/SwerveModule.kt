@@ -24,10 +24,13 @@ class SwerveModule(
     encoderOffset: Double,
     driveInverted: InvertedValue,
     turnInverted: InvertedValue,
+    driveCanBus: String,
+    turnCanBus: String,
+    encoderCanBus: String
 ) : Sendable {
-    private val driveMotor: TalonFX = TalonFX(driveMotorID)
-    private val turnMotor: TalonFX = TalonFX(turnMotorID)
-    private val canCoder: CANcoder = CANcoder(canCoderID)
+    private val driveMotor: TalonFX = TalonFX(driveMotorID, driveCanBus)
+    private val turnMotor: TalonFX = TalonFX(turnMotorID, turnCanBus)
+    private val canCoder: CANcoder = CANcoder(canCoderID, encoderCanBus)
     init {
         driveMotor.configurator.apply(
             TalonFXConfiguration().apply {
@@ -89,12 +92,16 @@ class SwerveModule(
 
     var commandedVolts = 0.0
     fun driveState(state: SwerveModuleState) {
-        val optimizedState = SwerveModuleState.optimize(state, Rotation2d.fromRadians(turnPosition))
+        val optimizedState = SwerveModuleState.optimize(
+            state,
+            Rotation2d.fromRadians(turnPosition)
+        )
         val goalTurnPosition = optimizedState.angle.radians
-        val goalDriveVelocity = optimizedState.speed * cos(turnPosition - goalTurnPosition)
+        val goalDriveVelocity = optimizedState.speed *
+                cos(turnPosition - goalTurnPosition)
         commandedVelocity = goalDriveVelocity
         turnMotor.setVoltage(turnPID.calculate(turnPosition, goalTurnPosition))
-        commandedVolts = driveFeedforward.calculate(goalDriveVelocity, driveAcceleration)
+        commandedVolts = driveFeedforward.calculate(driveVelocity, goalDriveVelocity)
         driveMotor.setVoltage(commandedVolts)
     }
 
