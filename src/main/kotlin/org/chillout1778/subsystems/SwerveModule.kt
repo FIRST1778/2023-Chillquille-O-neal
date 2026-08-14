@@ -1,5 +1,6 @@
 package org.chillout1778.subsystems
 
+import com.ctre.phoenix6.CANBus
 import com.ctre.phoenix6.configs.*
 import com.ctre.phoenix6.hardware.CANcoder
 import com.ctre.phoenix6.hardware.TalonFX
@@ -24,9 +25,9 @@ class SwerveModule(
     encoderOffset: Double,
     driveInverted: InvertedValue,
     turnInverted: InvertedValue,
-    driveCanBus: String,
-    turnCanBus: String,
-    encoderCanBus: String
+    driveCanBus: CANBus,
+    turnCanBus: CANBus,
+    encoderCanBus: CANBus
 ) : Sendable {
     private val driveMotor: TalonFX = TalonFX(driveMotorID, driveCanBus)
     private val turnMotor: TalonFX = TalonFX(turnMotorID, turnCanBus)

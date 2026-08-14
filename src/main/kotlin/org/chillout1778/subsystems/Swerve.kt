@@ -1,6 +1,7 @@
 package org.chillout1778.subsystems
 
 import choreo.trajectory.SwerveSample
+import com.ctre.phoenix6.CANBus
 import com.ctre.phoenix6.configs.Pigeon2Configuration
 import com.ctre.phoenix6.hardware.Pigeon2
 import com.ctre.phoenix6.signals.InvertedValue
@@ -22,9 +23,9 @@ import org.chillout1778.subsystems.Elevator.height
 import kotlin.math.abs
 
 object Swerve: SubsystemBase() {
-    val ENCODER_CAN_BUS = "can_s0"
-    val DRIVE_CAN_BUS = "can_s2"
-    val TURN_CAN_BUS = "can_s1"
+    val ENCODER_CAN_BUS = CANBus.systemCore(2)
+    val DRIVE_CAN_BUS = CANBus.systemCore(0)
+    val TURN_CAN_BUS = CANBus.systemCore(1)
 
     private val gyro = Pigeon2(Constants.CanIds.GYRO).apply {
         configurator.apply(
