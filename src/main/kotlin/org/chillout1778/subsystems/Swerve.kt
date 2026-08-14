@@ -131,22 +131,6 @@ object Swerve: SubsystemBase() {
         fieldEstimate.robotPose = poseEstimator.estimatedPosition
     }
 
-    fun withinTolerance(t: Translation2d) =
-        estimatedPose.translation.getDistance(t) < Constants.Swerve.ALIGNMENT_TOLERANCE
-
-    private val modulePositions get() = modules.map { it.position }.toTypedArray()
-    val moduleStates get() = modules.map { it.state }.toTypedArray()
-
-    fun driveFieldRelative(speeds: ChassisSpeeds) {
-        driveRobotRelative(
-            speeds.toRobotRelative(estimatedPose.rotation)
-//            ChassisSpeeds.fromFieldRelativeSpeeds(
-//                speeds,
-//                estimatedPose.rotation
-//            )
-        )
-    }
-
     fun driveRobotRelative(speeds: ChassisSpeeds) {
         val discreteSpeeds = speeds.discretize(Robot.period)
         // val discreteSpeeds = ChassisSpeeds.discretize(speeds, Robot.period)
@@ -176,7 +160,6 @@ object Swerve: SubsystemBase() {
             sample.vy + yController.calculate(pose.y, sample.y),
             sample.omega + headingController.calculate(pose.rotation.radians, sample.heading)
         )
-        driveFieldRelative(speeds)
     }
 
     fun followPose(goalPose: Pose2d) {
@@ -186,7 +169,6 @@ object Swerve: SubsystemBase() {
             yController.calculate(currentPose.y, goalPose.y),
             headingController.calculate(currentPose.rotation.radians, goalPose.rotation.radians)
         )
-        driveFieldRelative(speeds)
     }
 }
 

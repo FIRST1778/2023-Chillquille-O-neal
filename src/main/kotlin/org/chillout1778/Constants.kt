@@ -57,7 +57,7 @@ object Constants {
         const val MANIPULATOR_ROLLER_MAIN_MOTOR = 18
         const val MANIPULATOR_ROLLER_FOLLOWER_MOTOR = 19
 
-        // GYRO
+        // GYRO !
 
         const val GYRO = 20
 
