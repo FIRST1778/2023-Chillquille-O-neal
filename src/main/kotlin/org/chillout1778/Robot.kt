@@ -1,8 +1,5 @@
 package org.chillout1778
 
-import choreo.Choreo
-import choreo.auto.AutoFactory
-import org.chillout1778.Elastic
 import org.chillout1778.commands.TeleopDriveCommand
 import org.chillout1778.subsystems.*
 import org.chillout1778.subsystems.Swerve
@@ -26,12 +23,24 @@ object Robot : TimedRobot() {
 
     var autoIsRunning = false
 
-    override fun robotInit() {
+    init {
         // Add autos to auto chooser in shuffleboard
     }
 
     override fun robotPeriodic() {
         CommandScheduler.getInstance().run()
+    }
+
+    override fun autonomousInit() {
+        autoIsRunning = true
+
+        selectedAutoCommand = autoChooser.selected
+
+        CommandScheduler.getInstance().schedule(selectedAutoCommand)
+    }
+
+    override fun autonomousExit() {
+        autoIsRunning = false
     }
 
     object AutoContainer {
@@ -40,7 +49,7 @@ object Robot : TimedRobot() {
 
     // Select a specific tab on the Elastic Dashboard during Teleop
     override fun teleopInit() {
-        Swerve.setDefaultCommand(TeleopDriveCommand(Controls::controls))
+        Swerve.defaultCommand = TeleopDriveCommand(Controls::controls)
         autoIsRunning = false
         Elastic.selectTab("Teleop")
 
@@ -53,12 +62,13 @@ object Robot : TimedRobot() {
         )
     }
 
+
     override fun teleopExit() {
-        Swerve.setDefaultCommand(Commands.none())
-        Superstructure.setDefaultCommand(Commands.none())
+        Swerve.defaultCommand = Commands.none()
+        Superstructure.defaultCommand = Commands.none()
     }
 
-    override fun testInit() {
+    override fun utilityInit() {
         CommandScheduler.getInstance().cancelAll()
     }
 }

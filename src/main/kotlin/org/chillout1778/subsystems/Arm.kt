@@ -3,6 +3,7 @@ package org.chillout1778.subsystems
 import com.ctre.phoenix6.controls.Follower
 import com.ctre.phoenix6.controls.MotionMagicVoltage
 import com.ctre.phoenix6.hardware.TalonFX
+import com.ctre.phoenix6.signals.MotorAlignmentValue
 import org.chillout1778.Constants
 import org.chillout1778.org.chillout1778.Angle
 import org.chillout1778.org.chillout1778.deg
@@ -25,7 +26,7 @@ object Arm {
         }
 
         private val followerMotor = TalonFX(Constants.CanIds.ARM_SHOULDER_FOLLOWER_MOTOR, Constants.CanBusses.ARM).apply{
-            setControl(Follower(mainMotor.deviceID, false))
+            setControl(Follower(mainMotor.deviceID, MotorAlignmentValue.Aligned))
         }
         var isZeroed = false
         fun zero() {

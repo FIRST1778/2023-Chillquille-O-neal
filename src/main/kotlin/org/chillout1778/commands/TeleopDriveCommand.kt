@@ -7,6 +7,7 @@ import org.chillout1778.Constants
 import org.chillout1778.Controls.DriveInputs
 import org.chillout1778.subsystems.Swerve
 import org.wpilib.command2.Command
+import org.wpilib.math.kinematics.ChassisVelocities
 
 class TeleopDriveCommand(
     private val driveInputsSupplier: Supplier<DriveInputs>
@@ -16,25 +17,20 @@ class TeleopDriveCommand(
         addRequirements(Swerve)
     }
 
-    val drive = SwerveRequest.FieldCentric()
-        .withDeadband(Constants.Swerve.MAX_SPEED * 0.1)
-        .withRotationalDeadband(Constants.Swerve.MAX_SPEED * 0.1)
-        .withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage)
-
-    val brake = SwerveRequest.SwerveDriveBrake()
 
     override fun execute() {
         val inputs = driveInputsSupplier.get()
 
-        Swerve.setControl(
-            if (inputs.wantSwerveBrake) {
-                brake
-            } else {
-                drive
-                    .withVelocityX(inputs.axial * Constants.Swerve.MAX_SPEED)
-                    .withVelocityY(inputs.lateral * Constants.Swerve.MAX_SPEED)
-                    .withRotationalRate(inputs.rotate * Constants.Swerve.MAX_ANGULAR_RATE)
-            }
-        )
+        if (inputs.wantSwerveBrake) {
+            Swerve.stop()
+        } else {
+            Swerve.driveRobotRelative(
+                ChassisVelocities(
+                    inputs.axial * Constants.Swerve.MAX_SPEED,
+                    inputs.lateral * Constants.Swerve.MAX_SPEED,
+                    inputs.rotate * Constants.Swerve.MAX_ANGULAR_RATE
+                )
+            )
+        }
     }
 }

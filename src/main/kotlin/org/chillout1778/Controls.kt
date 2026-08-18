@@ -1,11 +1,12 @@
 package org.chillout1778
 
+import org.wpilib.command2.button.CommandNiDsPS5Controller
 import org.wpilib.driverstation.GenericHID
 
 
 object Controls {
-    private val driverController = CommandPS5Controller(0)
-    private val operatorController = CommandPS5Controller(1)
+    private val driverController = CommandNiDsPS5Controller(0)
+    private val operatorController = CommandNiDsPS5Controller(1)
 
     data class DriveInputs (
 
@@ -18,7 +19,7 @@ object Controls {
     var autoControls = DriveInputs()
 
     val controls: DriveInputs get() {
-        return if (Robot.isAutonomous) autoControls
+        return if (Robot.autoIsRunning) autoControls
         else DriveInputs(
 
             axial = -driverController.leftY,

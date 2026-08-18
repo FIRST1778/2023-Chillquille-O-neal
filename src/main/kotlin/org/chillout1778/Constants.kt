@@ -9,6 +9,7 @@ import kotlin.math.sqrt
 import com.ctre.phoenix6.CANBus
 import org.wpilib.math.controller.PIDController
 import org.wpilib.math.controller.SimpleMotorFeedforward
+import org.wpilib.math.geometry.Transform3d
 import org.wpilib.math.util.Units
 import org.wpilib.vision.apriltag.AprilTagFields
 
@@ -78,7 +79,9 @@ object Constants {
     object Vision {
         val FIELD_TYPE = AprilTagFields.k2023ChargedUp
 
-        // Insert cameras and positions here
+        const val CAMERA1_NAME = "camera1"
+
+        val CAMERA1_TRANSFORM = Transform3d()
     }
 
     object Field {

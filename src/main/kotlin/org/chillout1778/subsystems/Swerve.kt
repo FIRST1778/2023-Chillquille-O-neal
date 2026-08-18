@@ -1,13 +1,11 @@
 package org.chillout1778.subsystems
 
-import choreo.trajectory.SwerveSample
 import com.ctre.phoenix6.CANBus
 import com.ctre.phoenix6.configs.Pigeon2Configuration
 import com.ctre.phoenix6.hardware.Pigeon2
 import com.ctre.phoenix6.signals.InvertedValue
 import org.chillout1778.Robot
 import org.chillout1778.Constants
-import org.chillout1778.subsystems.Elevator.height
 import org.wpilib.command2.SubsystemBase
 import org.wpilib.math.controller.PIDController
 import org.wpilib.math.estimator.SwerveDrivePoseEstimator
@@ -19,14 +17,15 @@ import org.wpilib.math.linalg.VecBuilder
 import org.wpilib.math.util.MathUtil
 import org.wpilib.smartdashboard.Field2d
 import org.wpilib.smartdashboard.SmartDashboard
-import kotlin.math.abs
+import org.wpilib.math.kinematics.ChassisVelocities
+import org.wpilib.math.kinematics.SwerveModulePosition
 
 object Swerve: SubsystemBase() {
-    val ENCODER_CAN_BUS = CANBus.systemCore(2)
-    val DRIVE_CAN_BUS = CANBus.systemCore(0)
-    val TURN_CAN_BUS = CANBus.systemCore(1)
+    val ENCODER_CAN_BUS = CANBus.systemcore(0)
+    val DRIVE_CAN_BUS = CANBus.systemcore(0)
+    val TURN_CAN_BUS = CANBus.systemcore(0)
 
-    private val gyro = Pigeon2(Constants.CanIds.GYRO).apply {
+    private val gyro = Pigeon2(Constants.CanIds.GYRO, CANBus.systemcore(0)).apply {
         configurator.apply(
             Pigeon2Configuration()
         )
@@ -91,6 +90,9 @@ object Swerve: SubsystemBase() {
         )
     )
 
+    private val modulePositions: Array<SwerveModulePosition>
+        get() = modules.map { it.position }.toTypedArray()
+
     private val fieldEstimate = Field2d()
 //    val goalField = Field2d().apply { name = "goalPose" }
 
@@ -121,27 +123,45 @@ object Swerve: SubsystemBase() {
         VecBuilder.fill(.9, .9, 2.0) // vision
     )
 
+    val pose: Pose2d
+        get() = poseEstimator.estimatedPosition
+
     override fun periodic() {
-        Vision.periodicAddMeasurements(poseEstimator)
         poseEstimator.update(
             Rotation2d(gyroAngle),
             modulePositions
         )
+
         fieldEstimate.robotPose = poseEstimator.estimatedPosition
     }
 
-    fun driveRobotRelative(speeds: ChassisSpeeds) {
-        val discreteSpeeds = speeds.discretize(Robot.period)
-        // val discreteSpeeds = ChassisSpeeds.discretize(speeds, Robot.period)
-        val moduleStates = kinematics.toSwerveModuleStates(discreteSpeeds)
-        for ((mod, state) in modules.zip(moduleStates)) {
-            mod.driveState(state)
+    fun driveRobotRelative(velocities: ChassisVelocities) {
+        val discreteVelocities = velocities.discretize(Robot.period)
+        val moduleVelocities = kinematics.toSwerveModuleVelocities(discreteVelocities)
+
+        for ((mod, velocity) in modules.zip(moduleVelocities)) {
+            mod.driveState(velocity)
         }
-        poseEstimator.update(Rotation2d(gyroAngle), modulePositions)
+
+        poseEstimator.update(
+            Rotation2d(gyroAngle),
+            modulePositions
+        )
+    }
+
+    fun addVisionMeasurement(
+        visionPose: Pose2d,
+        timestampSeconds: Double
+    ) {
+        poseEstimator.addVisionMeasurement(
+            visionPose,
+            timestampSeconds,
+            VecBuilder.fill(0.5, 0.5, 1.0)
+        )
     }
 
     fun stop() {
-        driveRobotRelative(ChassisSpeeds())
+        driveRobotRelative(ChassisVelocities())
     }
 
     private val xController = PIDController(12.0, 0.0, 0.0)
@@ -150,24 +170,41 @@ object Swerve: SubsystemBase() {
         enableContinuousInput(-Math.PI, Math.PI)
     }
 
-    fun followSample(sample: SwerveSample) {
+    fun followTarget(
+        targetX: Double,
+        targetY: Double,
+        targetHeading: Double,
+        targetVx: Double = 0.0,
+        targetVy: Double = 0.0,
+        targetOmega: Double = 0.0
+    ) {
         val pose = poseEstimator.estimatedPosition
-//        goalField.robotPose = sample.pose
 
-        val speeds = ChassisSpeeds(
-            sample.vx + xController.calculate(pose.x, sample.x),
-            sample.vy + yController.calculate(pose.y, sample.y),
-            sample.omega + headingController.calculate(pose.rotation.radians, sample.heading)
+        val velocities = ChassisVelocities(
+            targetVx + xController.calculate(pose.x, targetX),
+            targetVy + yController.calculate(pose.y, targetY),
+            targetOmega + headingController.calculate(
+                pose.rotation.radians,
+                targetHeading
+            )
         )
+
+        driveRobotRelative(velocities)
     }
 
     fun followPose(goalPose: Pose2d) {
         val currentPose = poseEstimator.estimatedPosition
-        val speeds = ChassisSpeeds(
+
+        val velocities = ChassisVelocities(
             xController.calculate(currentPose.x, goalPose.x),
             yController.calculate(currentPose.y, goalPose.y),
-            headingController.calculate(currentPose.rotation.radians, goalPose.rotation.radians)
+            headingController.calculate(
+                currentPose.rotation.radians,
+                goalPose.rotation.radians
+            )
         )
+
+        driveRobotRelative(velocities)
     }
 }
 

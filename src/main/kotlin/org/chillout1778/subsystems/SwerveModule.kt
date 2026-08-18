@@ -10,6 +10,7 @@ import com.ctre.phoenix6.signals.SensorDirectionValue
 import org.chillout1778.Constants
 import org.wpilib.math.geometry.Rotation2d
 import org.wpilib.math.kinematics.SwerveModulePosition
+import org.wpilib.math.kinematics.SwerveModuleVelocity
 import org.wpilib.math.util.MathUtil
 import org.wpilib.util.sendable.Sendable
 import org.wpilib.util.sendable.SendableBuilder
@@ -65,8 +66,8 @@ class SwerveModule(
                 .withSensorDirection(SensorDirectionValue.CounterClockwise_Positive)
         )
         turnMotor.setPosition(canCoder.absolutePosition.valueAsDouble - encoderOffset)
-        driveMotor.setNeutralMode(NeutralModeValue.Brake)
-        turnMotor.setNeutralMode(NeutralModeValue.Coast)
+        driveMotor.configNeutralMode(NeutralModeValue.Brake)
+        turnMotor.configNeutralMode(NeutralModeValue.Coast)
     }
 
     private val turnPID = Constants.Swerve.makeTurnPID()
@@ -86,22 +87,42 @@ class SwerveModule(
     val position get() = SwerveModulePosition(
         drivePosition, Rotation2d(turnPosition)
     )
-    val state get() = SwerveModuleState(
-        driveVelocity, Rotation2d(turnPosition),
+    val state get() = SwerveModuleVelocity(
+        driveVelocity, Rotation2d(turnPosition)
     )
 
     var commandedVolts = 0.0
-    fun driveState(state: SwerveModuleState) {
-        val optimizedState = SwerveModuleState.optimize(
-            state,
-            Rotation2d.fromRadians(turnPosition)
-        )
-        val goalTurnPosition = optimizedState.angle.radians
-        val goalDriveVelocity = optimizedState.speed *
-                cos(turnPosition - goalTurnPosition)
+    fun driveState(state: SwerveModuleVelocity) {
+        var goalTurnPosition = state.angle.radians
+        var goalDriveVelocity = state.velocity
+
+        var delta = goalTurnPosition - turnPosition
+
+        // Normalize angle difference to [-pi, pi]
+        delta = (delta + Math.PI) % (2.0 * Math.PI) - Math.PI
+
+        // Reverse the wheel instead of turning >90 degrees
+        if (kotlin.math.abs(delta) > Math.PI / 2.0) {
+            goalTurnPosition += Math.PI
+            goalDriveVelocity = -goalDriveVelocity
+        }
+
+        // Keep the angle in a reasonable range
+        goalTurnPosition =
+            (goalTurnPosition + Math.PI) % (2.0 * Math.PI) - Math.PI
+
+        // Same cosine compensation your old code used
+        goalDriveVelocity *= cos(turnPosition - goalTurnPosition)
+
         commandedVelocity = goalDriveVelocity
-        turnMotor.setVoltage(turnPID.calculate(turnPosition, goalTurnPosition))
-        commandedVolts = driveFeedforward.calculate(driveVelocity, goalDriveVelocity)
+
+        turnMotor.setVoltage(
+            turnPID.calculate(turnPosition, goalTurnPosition)
+        )
+
+        commandedVolts =
+            driveFeedforward.calculate(driveVelocity, goalDriveVelocity)
+
         driveMotor.setVoltage(commandedVolts)
     }
 

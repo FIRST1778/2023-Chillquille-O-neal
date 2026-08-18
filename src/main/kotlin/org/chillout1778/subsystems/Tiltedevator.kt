@@ -4,6 +4,7 @@ import org.chillout1778.Constants
 import com.ctre.phoenix6.hardware.TalonFX
 import com.ctre.phoenix6.controls.Follower
 import com.ctre.phoenix6.controls.MotionMagicVoltage
+import com.ctre.phoenix6.signals.MotorAlignmentValue
 import com.ctre.phoenix6.signals.NeutralModeValue
 import org.chillout1778.org.chillout1778.Distance
 import org.chillout1778.org.chillout1778.m
@@ -18,7 +19,7 @@ object Elevator: SubsystemBase() {
     }
 
     private val followerMotor = TalonFX(Constants.CanIds.ELEVATOR_FOLLOWER_MOTOR, Constants.CanBusses.ELEVATOR).apply{
-        setControl(Follower(mainMotor.deviceID, true))
+        setControl(Follower(mainMotor.deviceID, MotorAlignmentValue.Opposed))
     }
 
     var isZeroed = false
@@ -51,11 +52,11 @@ object Elevator: SubsystemBase() {
 
     fun setCoastEnabled(coast: Boolean) {
         if (coast) {
-            mainMotor.setNeutralMode(NeutralModeValue.Coast)
-            followerMotor.setNeutralMode(NeutralModeValue.Coast)
+            mainMotor.configNeutralMode(NeutralModeValue.Coast)
+            followerMotor.configNeutralMode(NeutralModeValue.Coast)
         } else {
-            mainMotor.setNeutralMode(NeutralModeValue.Brake)
-            followerMotor.setNeutralMode(NeutralModeValue.Brake)
+            mainMotor.configNeutralMode(NeutralModeValue.Brake)
+            followerMotor.configNeutralMode(NeutralModeValue.Brake)
         }
     }
 

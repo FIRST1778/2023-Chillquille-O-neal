@@ -2,4 +2,4 @@
 package org.chillout1778
 import org.wpilib.framework.RobotBase
 
-fun main() = RobotBase.startRobot { Robot }
+fun main() = RobotBase.startRobot(Robot::class.java)
