@@ -1,6 +1,5 @@
 package org.chillout1778
 
-import edu.wpi.first.wpilibj.PowerDistribution
 import edu.wpi.first.wpilibj.RobotBase
 import org.littletonrobotics.junction.Logger
 import org.littletonrobotics.junction.networktables.NT4Publisher

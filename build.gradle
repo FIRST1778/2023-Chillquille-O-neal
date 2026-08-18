@@ -1,7 +1,9 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id "org.wpilib.GradleRIO" version "2027.0.0-alpha-5"
     id "java"
-    id "org.jetbrains.kotlin.jvm" version "1.9.22"
+    id "org.jetbrains.kotlin.jvm" version "2.3.0"
 }
 
 java {
@@ -11,6 +13,9 @@ java {
 
 kotlin {
     jvmToolchain(25)
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25
+    }
 }
 
 def ROBOT_MAIN_CLASS = "org.chillout1778.Main"
@@ -31,36 +36,8 @@ sourceSets {
 
 // Define my targets (SystemCore) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
-deploy {
-    targets {
-        systemcore(getTargetTypeClass('SystemCore')) {
-            // Team number is loaded either from the .wpilib/wpilib_preferences.json
-            // or from command line. If not found an exception will be thrown.
-            // You can use getTeamOrDefault(team) instead of getTeamNumber if you
-            // want to store a team number in this file.
-            team = project.frc.getTeamNumber()
-            debug = project.frc.getDebugOrDefault(false)
 
-            artifacts {
-                // First part is artifact name, 2nd is artifact type
-                // getTargetTypeClass is a shortcut to get the class type using a string
 
-                frcJava(getArtifactTypeClass('FRCJavaArtifact')) {
-                }
-
-                // Static files artifact
-                frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
-                    files = project.fileTree('src/main/deploy')
-                    directory = '/home/systemcore/deploy'
-                    deleteOldFiles = false // Change to true to delete files on systemcore that no
-                                           // longer exist in deploy directory of this project
-                }
-            }
-        }
-    }
-}
-
-def deployArtifact = deploy.targets.systemcore.artifacts.frcJava
 
 // Set to true to use debug for JNI.
 wpi.java.debugJni = false
@@ -76,12 +53,6 @@ dependencies {
     annotationProcessor wpi.java.deps.wpilibAnnotations()
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
-
-    systemcoreDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.systemcore)
-    systemcoreDebug wpi.java.vendor.jniDebug(wpi.platforms.systemcore)
-
-    systemcoreRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.systemcore)
-    systemcoreRelease wpi.java.vendor.jniRelease(wpi.platforms.systemcore)
 
     nativeDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.desktop)
     nativeDebug wpi.java.vendor.jniDebug(wpi.platforms.desktop)
@@ -113,12 +84,10 @@ wpi.sim.addDriverstation()
 jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     from sourceSets.main.allSource
-    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 // Configure jar and deploy tasks
-deployArtifact.jarTask = jar
 wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
 
