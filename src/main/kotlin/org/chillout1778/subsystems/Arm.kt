@@ -3,13 +3,13 @@ package org.chillout1778.subsystems
 import com.ctre.phoenix6.controls.Follower
 import com.ctre.phoenix6.controls.MotionMagicVoltage
 import com.ctre.phoenix6.hardware.TalonFX
-import edu.wpi.first.wpilibj2.command.SubsystemBase
 import org.chillout1778.Constants
 import org.chillout1778.org.chillout1778.Angle
 import org.chillout1778.org.chillout1778.deg
 import org.chillout1778.org.chillout1778.rad
 import org.chillout1778.org.chillout1778.subsystems.asWPIAngle
 import kotlin.math.PI
+import org.wpilib.command2.SubsystemBase;
 
 /* REVISION:
 Arm is the subsystem containing the WRIST and SHOULDER

@@ -1,6 +1,5 @@
 package org.chillout1778.org.chillout1778.subsystems
 
-import edu.wpi.first.wpilibj.RobotState
 import org.chillout1778.org.chillout1778.Angle
 import org.chillout1778.org.chillout1778.Distance
 import org.chillout1778.org.chillout1778.deg
@@ -57,7 +56,7 @@ object ArmElevatorManager {
     }
 }
 
-fun Angle.asWPIAngle(): edu.wpi.first.units.measure.Angle {
+fun Angle.asWPIAngle(): org.wpilib.units.measure.Angle {
     val asRad = this.inRad
-    return edu.wpi.first.units.measure.Angle.ofBaseUnits(asRad, edu.wpi.first.units.Units.Radians)
+    return org.wpilib.units.measure.Angle.ofBaseUnits(asRad, org.wpilib.units.Units.Radians)
 }

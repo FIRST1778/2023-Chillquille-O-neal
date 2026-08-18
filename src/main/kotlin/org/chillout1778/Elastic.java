@@ -1,8 +1,9 @@
 package org.chillout1778;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StringPublisher;
+
+import org.wpilib.networktables.NetworkTable;
+import org.wpilib.networktables.NetworkTableInstance;
+import org.wpilib.networktables.StringPublisher;
 
 /**
  * Utility class for interacting with the Elastic Dashboard over NetworkTables.

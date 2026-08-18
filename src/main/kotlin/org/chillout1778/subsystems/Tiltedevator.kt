@@ -1,15 +1,14 @@
 package org.chillout1778.subsystems
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase
 import org.chillout1778.Constants
 import com.ctre.phoenix6.hardware.TalonFX
 import com.ctre.phoenix6.controls.Follower
 import com.ctre.phoenix6.controls.MotionMagicVoltage
 import com.ctre.phoenix6.signals.NeutralModeValue
-import edu.wpi.first.math.util.Units
 import org.chillout1778.org.chillout1778.Distance
 import org.chillout1778.org.chillout1778.m
 import org.chillout1778.org.chillout1778.subsystems.ArmElevatorManager.currentState
+import org.wpilib.command2.SubsystemBase
 import kotlin.math.abs
 
 object Elevator: SubsystemBase() {

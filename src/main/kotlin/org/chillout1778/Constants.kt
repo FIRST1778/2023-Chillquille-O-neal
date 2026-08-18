@@ -3,16 +3,14 @@ package org.chillout1778
 import com.ctre.phoenix6.configs.TalonFXConfiguration
 import com.ctre.phoenix6.signals.InvertedValue
 import com.ctre.phoenix6.signals.NeutralModeValue
-import edu.wpi.first.apriltag.AprilTagFields
-import edu.wpi.first.math.controller.PIDController
-import edu.wpi.first.math.controller.SimpleMotorFeedforward
-import edu.wpi.first.math.util.Units
 import kotlin.math.PI
 import java.lang.Math.toRadians
-import edu.wpi.first.math.geometry.*
 import kotlin.math.sqrt
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap
 import com.ctre.phoenix6.CANBus
+import org.wpilib.math.controller.PIDController
+import org.wpilib.math.controller.SimpleMotorFeedforward
+import org.wpilib.math.util.Units
+import org.wpilib.vision.apriltag.AprilTagFields
 
 
 object Constants {

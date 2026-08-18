@@ -7,13 +7,12 @@ import com.ctre.phoenix6.hardware.TalonFX
 import com.ctre.phoenix6.signals.InvertedValue
 import com.ctre.phoenix6.signals.NeutralModeValue
 import com.ctre.phoenix6.signals.SensorDirectionValue
-import edu.wpi.first.math.MathUtil
-import edu.wpi.first.math.geometry.Rotation2d
-import edu.wpi.first.math.kinematics.SwerveModulePosition
-import edu.wpi.first.math.kinematics.SwerveModuleState
-import edu.wpi.first.util.sendable.Sendable
-import edu.wpi.first.util.sendable.SendableBuilder
 import org.chillout1778.Constants
+import org.wpilib.math.geometry.Rotation2d
+import org.wpilib.math.kinematics.SwerveModulePosition
+import org.wpilib.math.util.MathUtil
+import org.wpilib.util.sendable.Sendable
+import org.wpilib.util.sendable.SendableBuilder
 import kotlin.math.PI
 import kotlin.math.cos
 

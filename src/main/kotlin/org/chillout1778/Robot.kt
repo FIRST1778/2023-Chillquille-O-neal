@@ -2,17 +2,16 @@ package org.chillout1778
 
 import choreo.Choreo
 import choreo.auto.AutoFactory
-import edu.wpi.first.math.geometry.Pose2d
-import edu.wpi.first.wpilibj.*
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
-import edu.wpi.first.wpilibj2.command.Command
-import edu.wpi.first.wpilibj2.command.CommandScheduler
-import edu.wpi.first.wpilibj2.command.Commands
-import edu.wpi.first.wpilibj2.command.InstantCommand
 import org.chillout1778.Elastic
 import org.chillout1778.commands.TeleopDriveCommand
 import org.chillout1778.subsystems.*
 import org.chillout1778.subsystems.Swerve
+import org.wpilib.command2.Command
+import org.wpilib.command2.CommandScheduler
+import org.wpilib.command2.Commands
+import org.wpilib.command2.InstantCommand
+import org.wpilib.framework.TimedRobot
+import org.wpilib.smartdashboard.SendableChooser
 
 object Robot : TimedRobot() {
 

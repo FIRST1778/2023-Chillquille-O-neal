@@ -2,11 +2,11 @@ package org.chillout1778.commands
 
 import com.ctre.phoenix6.swerve.SwerveModule
 import com.ctre.phoenix6.swerve.SwerveRequest
-import edu.wpi.first.wpilibj2.command.Command
 import java.util.function.Supplier
 import org.chillout1778.Constants
 import org.chillout1778.Controls.DriveInputs
 import org.chillout1778.subsystems.Swerve
+import org.wpilib.command2.Command
 
 class TeleopDriveCommand(
     private val driveInputsSupplier: Supplier<DriveInputs>

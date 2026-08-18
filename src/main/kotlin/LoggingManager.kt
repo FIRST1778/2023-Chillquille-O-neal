@@ -1,9 +1,9 @@
 package org.chillout1778
 
-import edu.wpi.first.wpilibj.RobotBase
 import org.littletonrobotics.junction.Logger
 import org.littletonrobotics.junction.networktables.NT4Publisher
 import org.littletonrobotics.junction.wpilog.WPILOGWriter
+import org.wpilib.framework.RobotBase
 
 object LoggingManager {
     fun start() {

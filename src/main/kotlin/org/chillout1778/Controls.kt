@@ -1,7 +1,7 @@
 package org.chillout1778
 
-import edu.wpi.first.wpilibj.GenericHID
-import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller
+import org.wpilib.driverstation.GenericHID
+
 
 object Controls {
     private val driverController = CommandPS5Controller(0)
@@ -31,7 +31,7 @@ object Controls {
 
     //For when we add autoalign
     fun autoAlignRumble(left: Double, right: Double) {
-        driverController.setRumble(GenericHID.RumbleType.kLeftRumble, left)
-        driverController.setRumble(GenericHID.RumbleType.kRightRumble, right)
+        driverController.setRumble(GenericHID.RumbleType.LEFT_RUMBLE, left)
+        driverController.setRumble(GenericHID.RumbleType.RIGHT_RUMBLE, right)
     }
 }

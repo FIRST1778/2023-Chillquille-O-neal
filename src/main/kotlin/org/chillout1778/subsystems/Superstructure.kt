@@ -1,6 +1,7 @@
 package org.chillout1778.subsystems
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase
+import org.wpilib.command2.SubsystemBase
+
 object Superstructure: SubsystemBase() {
 
 }
