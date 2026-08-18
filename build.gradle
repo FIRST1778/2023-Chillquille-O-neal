@@ -1,16 +1,16 @@
 plugins {
+    id "org.wpilib.GradleRIO" version "2027.0.0-alpha-5"
     id "java"
     id "org.jetbrains.kotlin.jvm" version "1.9.22"
-    id "edu.wpi.first.GradleRIO2027" version "2027.0.0-alpha-2"
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(25)
 }
 
 def ROBOT_MAIN_CLASS = "org.chillout1778.Main"
@@ -92,6 +92,7 @@ dependencies {
     simulationRelease wpi.sim.enableRelease()
 
     implementation("org.photonvision:photonlib-java:v2027.0.0-alpha-2")
+
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
