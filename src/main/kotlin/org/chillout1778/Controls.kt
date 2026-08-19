@@ -25,7 +25,7 @@ object Controls {
             axial = -driverController.leftY,
             lateral = -driverController.leftX,
             rotate = -driverController.rightX,
-            wantSwerveBrake = driverController.hid.l3Button,
+            wantSwerveBrake = driverController.l3Button,
 
             )
     }
