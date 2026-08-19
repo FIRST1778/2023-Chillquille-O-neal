@@ -1,12 +1,12 @@
 package org.chillout1778
 
-import org.wpilib.command2.button.CommandNiDsPS5Controller
+import org.wpilib.driverstation.NiDsPS5Controller
 import org.wpilib.driverstation.GenericHID
 
 
 object Controls {
-    private val driverController = CommandNiDsPS5Controller(0)
-    private val operatorController = CommandNiDsPS5Controller(1)
+    private val driverController = NiDsPS5Controller(0)
+    private val operatorController = NiDsPS5Controller(1)
 
     data class DriveInputs (
 
