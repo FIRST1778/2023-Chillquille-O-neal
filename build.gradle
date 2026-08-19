@@ -32,6 +32,10 @@ repositories {
     }
 }
 
+kotlin {
+    jvmToolchain(25)
+}
+
 // Define my targets (SystemCore) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
 deploy {
