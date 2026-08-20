@@ -23,7 +23,7 @@ sourceSets {
     }
 }
 
-def ROBOT_MAIN_CLASS = "first.Main"
+def ROBOT_MAIN_CLASS = "org.chillout1778.Main"
 
 
 repositories {
@@ -88,6 +88,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     implementation "com.ctre.phoenix6:wpiapi-java:26.50.0-alpha-1"
+    implementation "org.wpilib.commandsv2:commandsv2-java:2027.0.0-alpha-6"
+    implementation "org.photonvision:photonlib-java:v2027.0.0-alpha-2"
 
     systemcoreDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.systemcore)
     systemcoreDebug wpi.java.vendor.jniDebug(wpi.platforms.systemcore)
