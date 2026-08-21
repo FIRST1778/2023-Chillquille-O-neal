@@ -18,6 +18,7 @@ object Controls {
 
     var autoControls = DriveInputs()
 
+
     val controls: DriveInputs get() {
         return if (Robot.autoIsRunning) autoControls
         else DriveInputs(
