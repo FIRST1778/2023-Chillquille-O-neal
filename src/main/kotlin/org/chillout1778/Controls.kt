@@ -1,12 +1,12 @@
 package org.chillout1778
 
-import org.wpilib.driverstation.NiDsPS5Controller
+import org.wpilib.command2.button.CommandGamepad
 import org.wpilib.driverstation.GenericHID
 
 
 object Controls {
-    private val driverController = NiDsPS5Controller(0)
-    private val operatorController = NiDsPS5Controller(1)
+    private val driverController = CommandGamepad(0)
+    private val operatorController = CommandGamepad(1)
 
     data class DriveInputs (
 
@@ -25,7 +25,7 @@ object Controls {
             axial = -driverController.leftY,
             lateral = -driverController.leftX,
             rotate = -driverController.rightX,
-            wantSwerveBrake = driverController.l3Button,
+            wantSwerveBrake = driverController.leftStick().asBoolean,
 
             )
     }
