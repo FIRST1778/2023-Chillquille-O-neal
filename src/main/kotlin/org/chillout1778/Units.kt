@@ -2,6 +2,7 @@ package org.chillout1778.org.chillout1778
 
 import kotlin.math.abs
 
+@ConsistentCopyVisibility
 data class Angle private constructor(override val value: Double) : Quantity<Angle>() {
     companion object {
         private const val DEGREES_TO_RADIANS = Math.PI / 180
@@ -184,6 +185,7 @@ fun <T : Quantity<T>> abs(quantity: T): T = quantity.abs
  * @param value the distance in millimeters
  * @author BeepBot99
  */
+@ConsistentCopyVisibility
 data class Distance private constructor(override val value: Double) : Quantity<Distance>() {
     companion object {
         private const val CENTIMETERS_TO_MILLIMETERS = 10.0
