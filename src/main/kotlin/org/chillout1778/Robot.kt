@@ -33,7 +33,7 @@ object Robot : TimedRobot() {
 
     override fun autonomousInit() {
         autoIsRunning = true
-//
+
         selectedAutoCommand = autoChooser.selected
 
         CommandScheduler.getInstance().schedule(selectedAutoCommand)
