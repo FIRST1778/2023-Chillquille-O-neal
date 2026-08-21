@@ -1,9 +1,7 @@
-
 plugins {
     id "java"
     id "org.wpilib.GradleRIO" version "2027.0.0-alpha-6"
     id "com.gradleup.shadow" version "9.3.0"
-    id "org.jetbrains.kotlin.jvm" version "2.3.0"
 }
 
 java {
@@ -11,31 +9,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_25
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java', 'src/main/kotlin']
-        }
-    }
-    test {
-        java {
-            srcDirs = ['src/test/java', 'src/test/kotlin']
-        }
-    }
-}
-
-def ROBOT_MAIN_CLASS = "org.chillout1778.Main"
-
-
-repositories {
-    maven {
-        url = uri("https://maven.ctr-electronics.com/release/")
-    }
-}
-
-kotlin {
-    jvmToolchain(25)
-}
+def ROBOT_MAIN_CLASS = "first.Main"
 
 // Define my targets (SystemCore) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
@@ -78,7 +52,7 @@ def deployArtifact = deploy.targets.systemcore.artifacts.wpilibJava
 wpi.java.debugJni = false
 
 // Set this to true to enable desktop support.
-def includeDesktopSupport = false
+def includeDesktopSupport = true
 
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 5.
@@ -86,11 +60,6 @@ dependencies {
     annotationProcessor wpi.java.deps.wpilibAnnotations()
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-
-    implementation "com.ctre.phoenix6:wpiapi-java:26.50.0-alpha-1"
-    implementation "org.wpilib.commandsv2:commandsv2-java:2027.0.0-alpha-6"
-    implementation "org.photonvision:photonlib-java:v2027.0.0-alpha-2"
 
     systemcoreDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.systemcore)
     systemcoreDebug wpi.java.vendor.jniDebug(wpi.platforms.systemcore)
