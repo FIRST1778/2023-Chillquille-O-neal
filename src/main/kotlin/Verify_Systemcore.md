@@ -11,7 +11,7 @@
 ### 2. Test SystemCore Directly
 
 * [ ] Connect the Driver Station computer directly to SystemCore.
-* [ ] Open `http://10.17.78.2`.
+* [ ] Open http://10.17.78.2.
 * [ ] Confirm the SystemCore web interface loads.
 
 ### 3. Test USB Networking

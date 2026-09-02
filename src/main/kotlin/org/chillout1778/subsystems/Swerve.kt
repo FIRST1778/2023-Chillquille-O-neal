@@ -136,7 +136,7 @@ object Swerve: SubsystemBase() {
     }
 
     fun driveRobotRelative(velocities: ChassisVelocities) {
-        val discreteVelocities = velocities.discretize(Robot.period)
+        val discreteVelocities = velocities.discretize(0.02)
         val moduleVelocities = kinematics.toSwerveModuleVelocities(discreteVelocities)
 
         for ((mod, velocity) in modules.zip(moduleVelocities)) {

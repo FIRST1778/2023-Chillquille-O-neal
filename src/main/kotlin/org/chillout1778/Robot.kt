@@ -10,7 +10,7 @@ import org.wpilib.command2.InstantCommand
 import org.wpilib.framework.TimedRobot
 import org.wpilib.smartdashboard.SendableChooser
 
-object Robot : TimedRobot() {
+class Robot : TimedRobot() {
 
     var selectedAutoCommand: Command = InstantCommand()
 
@@ -18,11 +18,11 @@ object Robot : TimedRobot() {
 
     init {
         // MUST BE CALLED FIRST before subsystems boot up!
-        LoggingManager.start()
     }
 
-    var autoIsRunning = false
-
+    companion object {
+        var autoIsRunning = false
+    }
     init {
         // Add autos to auto chooser in shuffleboard
     }
@@ -44,7 +44,7 @@ object Robot : TimedRobot() {
     }
 //
     object AutoContainer {
-        // private val instant commands that you can mix and match
+        // private val instant co   mmands that you can mix and match
     }
 
     // Select a specific tab on the Elastic Dashboard during Teleop
