@@ -99,7 +99,6 @@ dependencies {
     implementation wpi.java.vendor.java()
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    implementation "com.ctre.phoenix6:wpiapi-java:26.50.0-alpha-1"
     implementation "org.wpilib.commandsv2:commandsv2-java:2027.0.0-alpha-6"
     implementation "org.photonvision:photonlib-java:v2027.0.0-alpha-2"
 
